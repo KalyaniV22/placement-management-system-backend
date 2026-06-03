@@ -1,12 +1,10 @@
 package com.smartcampus.dto;
 
-public class StudentDto {
-
+public class StudentUpdateDto {
 	private String name;
 	private String branch;
 	private float cgpa;
 	private int no_of_backlog;
-	private String email;
 
 	public String getName() {
 		return name;
@@ -40,18 +38,10 @@ public class StudentDto {
 		this.no_of_backlog = no_of_backlog;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	@Override
 	public String toString() {
-		return "StudentDto [name=" + name + ", branch=" + branch + ", cgpa=" + cgpa + ", no_of_backlog=" + no_of_backlog
-				+ ", email=" + email + "]";
+		return "StudentUpdateDto [name=" + name + ", branch=" + branch + ", cgpa=" + cgpa + ", no_of_backlog="
+				+ no_of_backlog + "]";
 	}
 
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.smartcampus.entity.Company;
 
 @Repository
-public interface CompanyRepository extends JpaRepository<Company,Integer>{
+public interface CompanyRepository extends JpaRepository<Company, Integer> {
 	@Query(value = """
 		    SELECT *
 		    FROM company c
@@ -22,4 +22,5 @@ public interface CompanyRepository extends JpaRepository<Company,Integer>{
 		        @Param("branch") String branch,
 		        @Param("cgpa") float cgpa,
 		        @Param("noOfBacklog") int noOfBacklog);
-	}
+	public Company findByName(String name);
+}

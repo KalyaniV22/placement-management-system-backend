@@ -22,11 +22,10 @@ public class Student {
 	private float cgpa;
 	@Column
 	private int no_of_backlog;
-	@Column
 	@ManyToMany
 	private List<Company> companies;
-	@Column
-	private String resumePath;
+	@Column(unique = true)
+	private String email;;
 
 	public int getId() {
 		return id;
@@ -76,18 +75,18 @@ public class Student {
 		this.companies = companies;
 	}
 
-	public String getResumePath() {
-		return resumePath;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setResumePath(String resumePath) {
-		this.resumePath = resumePath;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", name=" + name + ", branch=" + branch + ", cgpa=" + cgpa + ", no_of_backlog="
-				+ no_of_backlog + ", companies=" + companies + ", resumePath=" + resumePath + "]";
+				+ no_of_backlog + ", companies=" + companies + ", email=" + email + "]";
 	}
 
 }
