@@ -34,28 +34,39 @@ public class SmartCampusServiceImpl implements SmartCampusService {
 				student.getNo_of_backlog());
 
 		student.setCompanies(eligibleCompanies);
-		 if (smartcampusrepo.existsByEmail(student.getEmail())) {
+		if (smartcampusrepo.existsByEmail(student.getEmail())) {
 			throw new RuntimeException("Email already exists!");
-		} 
+		}
 		return smartcampusrepo.save(student);
 	}
 
 	@Override
 	public Company addCompany(CompanyDto compdto) {
+
 		Company comp = new Company();
 		comp.setName(compdto.getName());
 		comp.setBacklogcriteria(compdto.getBacklogcriteria());
 		comp.setBranchcriteria(compdto.getBranchcriteria());
 		comp.setCgpacriteria(compdto.getCgpacriteria());
-		return Companyrepo.save(comp);
+
+		Company savedCompany = Companyrepo.save(comp);
+		List<Student> students = smartcampusrepo.findAll();
+		for (Student student : students) {
+			List<Company> companies = Companyrepo.findEligibleCompanies(student.getBranch(), student.getCgpa(),
+					student.getNo_of_backlog());
+			student.setCompanies(companies);
+			smartcampusrepo.save(student);
+		}
+
+		return savedCompany;
 	}
 
 	@Override
 	public List<StudentDto> getStudent() {
 		List<Student> std = smartcampusrepo.findAll();
-		StudentDto stddto=new StudentDto();
-		List<StudentDto> lstddto=new ArrayList<>();
-		for(Student s : std) {
+		List<StudentDto> lstddto = new ArrayList<>();
+		for (Student s : std) {
+			StudentDto stddto = new StudentDto();
 			stddto.setName(s.getName());
 			stddto.setBranch(s.getBranch());
 			stddto.setCgpa(s.getCgpa());
@@ -75,24 +86,31 @@ public class SmartCampusServiceImpl implements SmartCampusService {
 	public String getStudentAndCompanies(int studentId) {
 		Student student = smartcampusrepo.findById(studentId)
 				.orElseThrow(() -> new RuntimeException("Student not found"));
-    String result = "Student Name: " + student.getName() + "\nCompanies: ";
+		String result = "Student Name: " + student.getName() + "\nCompanies: ";
 
 		for (Company company : student.getCompanies()) {
 			result += company.getName() + " ";
 		}
-
 		return result;
 	}
 
 	public String updateStudent(String email, StudentUpdateDto stddto) {
+
 		Student existing = smartcampusrepo.findByEmail(email);
+
 		existing.setName(stddto.getName());
 		existing.setBranch(stddto.getBranch());
 		existing.setCgpa(stddto.getCgpa());
 		existing.setNo_of_backlog(stddto.getNo_of_backlog());
+
+		List<Company> eligibleCompanies = Companyrepo.findEligibleCompanies(existing.getBranch(), existing.getCgpa(),
+				existing.getNo_of_backlog());
+
+		existing.setCompanies(eligibleCompanies);
+
 		smartcampusrepo.save(existing);
-		String msg = "student updated";
-		return msg;
+
+		return "student updated";
 	}
 
 	public String updateCompany(String name, CompanyDto compdto) {
@@ -107,9 +125,20 @@ public class SmartCampusServiceImpl implements SmartCampusService {
 	}
 
 	public String deleteCompany(String name) {
+
 		Company comp = Companyrepo.findByName(name);
+
+		List<Student> students = smartcampusrepo.findAll();
+
+		for (Student student : students) {
+
+			student.getCompanies().remove(comp);
+			smartcampusrepo.save(student);
+		}
+
 		Companyrepo.delete(comp);
-		return "COMPANY DELERED!";
+
+		return "COMPANY DELETED!";
 	}
 
 }
