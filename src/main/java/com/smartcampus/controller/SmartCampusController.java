@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smartcampus.dto.CompanyDto;
+import com.smartcampus.dto.CompanyEligibilityDto;
+import com.smartcampus.dto.EligibleStudentDto;
 import com.smartcampus.dto.StudentDto;
 import com.smartcampus.dto.StudentUpdateDto;
 import com.smartcampus.entity.Company;
@@ -72,6 +74,15 @@ public class SmartCampusController {
 	@DeleteMapping("/dltcomp/{name}")
 	public String deleteCompany(@PathVariable String name) {
 		return smartcampusimpl.deleteCompany(name);
+	}
+	@GetMapping("/comp/{name}")
+	public List<EligibleStudentDto> getcompstudent(@PathVariable String name) {
+		return smartcampusimpl.getEligibleStudents(name);
+	}
+	
+	@GetMapping("/dashboard")
+	public CompanyEligibilityDto getDashboard(String name) {
+	    return smartcampusimpl.getCompanyEligibility(name);
 	}
 
 }
