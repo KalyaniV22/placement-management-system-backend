@@ -23,7 +23,7 @@ public class Student {
 	private float cgpa;
 	@Column
 	private int no_of_backlog;
-    @ElementCollection
+    @ManyToMany
 	private List<Company> companies;
 	@Column(unique = true)
 	private String email;;
