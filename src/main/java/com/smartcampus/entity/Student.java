@@ -3,7 +3,6 @@ package com.smartcampus.entity;
 import java.util.List;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +22,7 @@ public class Student {
 	private float cgpa;
 	@Column
 	private int no_of_backlog;
-    @ElementCollection
+    @ManyToMany
 	private List<Company> companies;
 	@Column(unique = true)
 	private String email;;
