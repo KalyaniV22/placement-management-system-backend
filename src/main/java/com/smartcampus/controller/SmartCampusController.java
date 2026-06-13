@@ -30,57 +30,57 @@ public class SmartCampusController {
 	@Autowired
 	private SmartCampusServiceImpl smartcampusimpl;
 
-	@PostMapping("/addstd")
+	@PostMapping("/add-student")
 	public ResponseEntity<String> addStudentData(@RequestBody StudentDto stddto) {
 		smartcampusimpl.addStudent(stddto);
 		return new ResponseEntity<>("Student data Saved!", HttpStatus.CREATED);
 
 	}
 
-	@PostMapping("/addcompany")
+	@PostMapping("/add-company")
 	public ResponseEntity<String> addCompanyData(@RequestBody CompanyDto compdto) {
 		smartcampusimpl.addCompany(compdto);
 		return new ResponseEntity<>("Campnay data Saved!", HttpStatus.CREATED);
 	}
 
-	@GetMapping("/getstd")
+	@GetMapping("/view-student")
 	public ResponseEntity<List<StudentDto>> getStudentData() {
 
 		List<StudentDto> lstudent = smartcampusimpl.getStudent();
 		return new ResponseEntity<>(lstudent, HttpStatus.OK);
 	}
 
-	@GetMapping("/getcompany")
+	@GetMapping("/view-companies")
 	public ResponseEntity<List<Company>> getCompanyData() {
 		List<Company> lcomp = smartcampusimpl.getCompany();
 		return new ResponseEntity<>(lcomp, HttpStatus.OK);
 	}
 
-	@GetMapping("/std/{id}")
+	@GetMapping("/view-studentbyid/{id}")
 	public String getStudentCompanies(@PathVariable int id) {
 		return smartcampusimpl.getStudentAndCompanies(id);
 	}
 
-	@PutMapping("/updatestd/{email}")
+	@PutMapping("/update-student/{email}")
 	public String updateStd(@PathVariable String email, StudentUpdateDto stddto) {
 		return smartcampusimpl.updateStudent(email, stddto);
 	}
 
-	@PutMapping("/updatecomp/{name}")
+	@PutMapping("/update-company/{name}")
 	public String updateCompany(@PathVariable String name, CompanyDto compdto) {
 		return smartcampusimpl.updateCompany(name, compdto);
 	}
 
-	@DeleteMapping("/dltcomp/{name}")
+	@DeleteMapping("/delete-company/{name}")
 	public String deleteCompany(@PathVariable String name) {
 		return smartcampusimpl.deleteCompany(name);
 	}
-	@GetMapping("/comp/{name}")
+	@GetMapping("/view-eligiblecompany/{name}")
 	public List<EligibleStudentDto> getcompstudent(@PathVariable String name) {
 		return smartcampusimpl.getEligibleStudents(name);
 	}
 	
-	@GetMapping("/dashboard")
+	@GetMapping("/eligibility-dashboard")
 	public CompanyEligibilityDto getDashboard(String name) {
 	    return smartcampusimpl.getCompanyEligibility(name);
 	}
