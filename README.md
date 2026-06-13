@@ -268,5 +268,6 @@ http://localhost:8080/swagger-ui/index.html
 ```
 
 ---
+<img width="1366" height="728" alt="image" src="https://github.com/user-attachments/assets/56b16af9-e9a4-4389-948a-4d5210a25323" />
 
 
